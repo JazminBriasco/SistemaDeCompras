@@ -1,5 +1,17 @@
+.spinner {
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.is-loading-spinner{
+    opacity: 0.5;
+}
+
 .list-container {
     margin-top: 3%;
+    margin-bottom: 6%;
     width: 100%;
     .mat-card {
         width: 98%;
@@ -24,4 +36,15 @@
     float: right;
     margin-top: 10px;
   }
+}
+
+.main-text {
+    width: 100%;
+    text-align: center;
+    font-size: 23px;
+}
+
+.historical-list {
+    background-color: #c2185b59;
+    margin-top: 1%;
 }

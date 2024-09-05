@@ -4,5 +4,6 @@ export enum TITLE {
     DESCRIPTION = 'Descripción',
     DEPOSIT = 'Depósito',
     PRICE = 'Precio',
-    SELLER = 'Vendedor'
+    SELLER = 'Vendedor',
+    HISTORICAL= 'Historial de Pedidos'
 }

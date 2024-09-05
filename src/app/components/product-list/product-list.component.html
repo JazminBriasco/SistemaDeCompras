@@ -1,45 +1,80 @@
-<form [formGroup]="productForm" (ngSubmit)="submitForm()">
-  <div class="list-container">
-    <mat-card appearance="outlined">
-        <mat-card-content>
-            <ul class="article-list header-list">
-                <li *ngFor="let item of titleList">{{ item }}</li>
-        </ul>
-        </mat-card-content>
-    </mat-card>
+<div>
+  <div *ngIf="isLoading" class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
 
-    <div formArrayName="items">
-      <div
-        *ngFor="let itemControl of formControls.controls; let i = index"
-        [formGroupName]="i"
-      >
-        <mat-card *ngIf="articulos[i].deposito === showDeposit" appearance="outlined">
+  <div [ngClass]="{ 'is-loading-spinner': isLoading }">
+    <form [formGroup]="productForm" (ngSubmit)="submitForm()">
+      <div class="list-container">
+        <mat-card appearance="outlined">
           <mat-card-content>
-            <ul class="article-list">
-              <li><mat-checkbox formControlName="checkbox"></mat-checkbox></li>
-              <li>{{ articulos[i].codigo }}</li>
-              <li>{{ articulos[i].descripcion }}</li>
-              <li>{{ articulos[i].deposito }}</li>
-              <li>{{ articulos[i].precio }}</li>
-              <li>
-                <select matNativeControl formControlName="dropdown">
-                  <option value="">Seleccione un vendedor</option>
-                  <option
-                    *ngFor="let seller of sellersList"
-                    [value]="seller.descripcion"
-                  >
-                    {{ seller.descripcion }}
-                  </option>
-                </select>
-              </li>
+            <ul class="article-list header-list">
+              <li *ngFor="let item of titleList">{{ item }}</li>
             </ul>
           </mat-card-content>
         </mat-card>
+
+        <div formArrayName="items">
+          <div
+            *ngFor="let itemControl of formControls.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <mat-card
+              *ngIf="
+                articsResponse[i].deposito === showDeposit &&
+                articsResponse[i].precio > 0
+              "
+              appearance="outlined"
+            >
+              <mat-card-content>
+                <ul class="article-list">
+                  <li>
+                    <mat-checkbox formControlName="checkbox"></mat-checkbox>
+                  </li>
+                  <li>{{ articsResponse[i].codigo }}</li>
+                  <li>{{ articsResponse[i].descripcion }}</li>
+                  <li>{{ articsResponse[i].deposito }}</li>
+                  <li>{{ articsResponse[i].precio }}</li>
+                  <li>
+                    <select matNativeControl formControlName="dropdown">
+                      <option value="">Seleccione un vendedor</option>
+                      <option
+                        *ngFor="let seller of sellersList"
+                        [value]="seller.descripcion"
+                      >
+                        {{ seller.descripcion }}
+                      </option>
+                    </select>
+                  </li>
+                </ul>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+
+        <button
+          class="btn"
+          mat-raised-button
+          color="primary"
+          [disabled]="isLoading"
+          type="submit"
+        >
+          ¡Guardar Pedido!
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="historical.length > 0">
+      <mat-toolbar color="secondary">
+        <span class="main-text">{{ secondaryTitle }}</span>
+      </mat-toolbar>
+      <div *ngFor="let art of historical" class="historical-list">
+        <mat-list role="list">
+          <mat-list-item role="listitem"
+            >Código: {{ art.codigo }}</mat-list-item
+          >
+        </mat-list>
       </div>
     </div>
-
-    <button class="btn" mat-raised-button color="primary" type="submit">
-      ¡Guardar Pedido!
-    </button>
   </div>
-</form>
+</div>
