@@ -1,0 +1,43 @@
+<form [formGroup]="productForm" (ngSubmit)="submitForm()">
+  <div class="list-container">
+    <mat-card appearance="outlined">
+      <ul class="article-list">
+        <li *ngFor="let item of titleList">{{ item }}</li>
+      </ul>
+    </mat-card>
+
+    <div formArrayName="items">
+      <div
+        *ngFor="let itemControl of formControls.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <mat-card *ngIf="articulos[i].deposito === showDeposit" appearance="outlined">
+          <mat-card-content>
+            <ul class="article-list">
+              <li><mat-checkbox formControlName="checkbox"></mat-checkbox></li>
+              <li>{{ articulos[i].codigo }}</li>
+              <li>{{ articulos[i].descripcion }}</li>
+              <li>{{ articulos[i].deposito }}</li>
+              <li>{{ articulos[i].precio }}</li>
+              <li>
+                <select formControlName="dropdown">
+                  <option value="">Seleccione un vendedor</option>
+                  <option
+                    *ngFor="let vendor of vendedores"
+                    [value]="vendor.descripcion"
+                  >
+                    {{ vendor.descripcion }}
+                  </option>
+                </select>
+              </li>
+            </ul>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <button class="btn" mat-raised-button color="primary" type="submit">
+      ¡Guardar Pedido!
+    </button>
+  </div>
+</form>

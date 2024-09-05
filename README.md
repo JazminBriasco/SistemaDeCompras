@@ -1,27 +1,20 @@
-# SistemaDeCompras
+## Challenge
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+Este proyecto tiene la finalidad de funcionar como challenge técnico.
+A continuación se explicará cada paso.
 
-## Development server
+Versiones:
+    Angular cli 14.1.3
+    Node 18.18.2
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Material extra: 
+    Angular material
 
-## Code scaffolding
+Para la vista se implementó Angular Material con pequeños cambios en el .scss.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Para las peticiones se implementó HttpClient, creando un servicio a parte.
 
-## Build
+Cada archivo cuenta con comentarios correspondientes a modo de explicaciones. 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Para levantar el front se usa el comando 'ng serve', en mi caso en Visual Studio Code.
+Para levantar el backend se le da a 'Run', en mi caso en Visual Studio 2019, la dirección del localhost puede variar.

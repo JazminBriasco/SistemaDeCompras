@@ -1,1 +1,2 @@
-/* You can add global styles to this file, and also import other style files */
+/*Agregamos el estilo de Angular Material que mas nos guste*/
+@import "~@angular/material/prebuilt-themes/purple-green.css";

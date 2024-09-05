@@ -1,0 +1,20 @@
+.list-container {
+  margin-top: 3%;
+  width: 100%;
+
+  .list-header {
+    display: inline-flex;
+  }
+
+  .article-list {
+    list-style: none;
+    display: inline-flex;
+    li {
+      width: 200px;
+    }
+  }
+  .btn {
+    float: right;
+    margin-top: 10px;
+  }
+}
