@@ -1,9 +1,11 @@
 <form [formGroup]="productForm" (ngSubmit)="submitForm()">
   <div class="list-container">
     <mat-card appearance="outlined">
-      <ul class="article-list">
-        <li *ngFor="let item of titleList">{{ item }}</li>
-      </ul>
+        <mat-card-content>
+            <ul class="article-list header-list">
+                <li *ngFor="let item of titleList">{{ item }}</li>
+        </ul>
+        </mat-card-content>
     </mat-card>
 
     <div formArrayName="items">
@@ -20,13 +22,13 @@
               <li>{{ articulos[i].deposito }}</li>
               <li>{{ articulos[i].precio }}</li>
               <li>
-                <select formControlName="dropdown">
+                <select matNativeControl formControlName="dropdown">
                   <option value="">Seleccione un vendedor</option>
                   <option
-                    *ngFor="let vendor of vendedores"
-                    [value]="vendor.descripcion"
+                    *ngFor="let seller of sellersList"
+                    [value]="seller.descripcion"
                   >
-                    {{ vendor.descripcion }}
+                    {{ seller.descripcion }}
                   </option>
                 </select>
               </li>

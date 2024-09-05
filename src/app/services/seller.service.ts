@@ -8,7 +8,7 @@ import { Article } from '../utils/models';
 })
 export class SellerService {
 
-  private urlSeller: string = "https://run.mocky.io/v3/c70569d3-9e72-48fb-8e77-3b8b00ceb0bc";
+  private urlSeller: string = "https://run.mocky.io/v3/dee1f24c-242d-4a0f-b3da-81859ff48fb5";
   private urlData: string = "https://localhost:5001/Article";
   
   constructor(private http: HttpClient) {

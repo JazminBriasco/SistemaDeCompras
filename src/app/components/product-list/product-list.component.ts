@@ -2,7 +2,7 @@ import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SellerService } from 'src/app/services/seller.service';
 import { TITLE } from 'src/app/utils/constants';
-import { Article } from 'src/app/utils/models';
+import { Article, Sellers } from 'src/app/utils/models';
 
 @Component({
   selector: 'app-product-list',
@@ -23,10 +23,8 @@ export class ProductListComponent implements OnInit {
   ];
 
   // Declaramos las propiedades que vamos a necesitar, al usarse en el HTML son públicas.
-  public sellersList: any;
-  public articsResponse :Article[] = [];
-  public sellersResponse = [];
-  public sumResponse = 0;
+  public sellersList: Sellers[] = [];
+  public articsResponse: Article[] = [];
   public showDeposit = 1;
   public productForm: FormGroup;
 
@@ -88,12 +86,36 @@ export class ProductListComponent implements OnInit {
     },
   ];
 
-  public vendedores = [
-    { descripcion: 'Colchon Telgo' },
-    { descripcion: 'Colchon Seally' },
-    { descripcion: 'Colchon Telgo' },
-    { descripcion: 'Colchon Seally' },
-  ];
+  public vendedores = JSON.stringify(
+    {
+      "vendedores": [
+        {
+          "id": 1,
+          "descripcion": "Hernan Garna"
+        },
+        {
+          "id": 2,
+          "descripcion": "Lucas Lauriente"
+        },
+        {
+          "id": 3,
+          "descripcion": "Martin Gomez"
+        },
+        {
+          "id": 4,
+          "descripcion": "Alan Tellerio"
+        },
+        {
+          "id": 5,
+          "descripcion": "Gonzalo Hernandez"
+        },
+        {
+          "id": 6,
+          "descripcion": "Ezequiel Martinez"
+        }
+      ]
+    });
+    
 
 //Inyectamos las dependencias que necesitamos, en este caso el servicio y el formulario
   constructor(
@@ -105,10 +127,10 @@ export class ProductListComponent implements OnInit {
         this.articulos.map((art) =>
           this.formBuilder.group({
             checkbox: [false, Validators.required],
-            code: [art.codigo],
-            description: [art.descripcion, Validators.pattern("/^[a-zA-Z0-9]*$/")], //Permitimos valores alfanuméricos.
-            price: [art.precio, Validators.min(1)], //El valor INGRESADO mímino es 1
-            deposit: [art.deposito],
+            codigo: [art.codigo],
+            descripcion: [art.descripcion, Validators.pattern("/^[a-zA-Z0-9]*$/")], //Permitimos valores alfanuméricos.
+            precio: [art.precio, Validators.min(1)], //El valor INGRESADO mímino es 1
+            deposito: [art.deposito],
             dropdown: [''],
           })
         )
@@ -130,8 +152,9 @@ export class ProductListComponent implements OnInit {
         this.articsResponse = response.data;
       },
       (error) => {
-        alert(`Ups! Error al intentar traer los artículos: ${error.message}`);
-        console.log(error.message);
+        alert(`Ups! Error al intentar traer los artículos, se usarán los guardados: ${error.message}`);
+        this.articsResponse = this.articulos;
+        console.log(error);
       }
     );
   }
@@ -139,10 +162,14 @@ export class ProductListComponent implements OnInit {
   fillSellers() {
     this._sellerService.getSellers().subscribe(
       (response) => {
-        this.sellersList = response.data;
+        // Por el momento esta llamada devuelve error por una sintaxis incorrecta.
+        this.sellersList = JSON.parse(response.data);
       },
       (error) => {
-        console.log(error.message);
+        /* Ya que tenemos el json podemos setearlo al haber error. 
+         * Lo hago de esa manera (llamando de todos modos al servicio) para no perder la posibilidad de usar la llamada exitosa.
+        */
+       this.sellersList = JSON.parse(this.vendedores).vendedores;
       }
     );
   }
@@ -150,8 +177,13 @@ export class ProductListComponent implements OnInit {
   sumProducts(isCkecked: Article[]) {
     this._sellerService.postSumProducts(isCkecked).subscribe(
       (response) => {
+        // Formateamos de número a dinero.
+        var responseFormat = response.toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        });
         alert(
-          `Se han agregado ${isCkecked.length} artículos con una suma de ${response.data}`
+          `Se han agregado ${isCkecked.length} artículos con una suma de ${responseFormat}`
         );
       },
       (error) => {
@@ -172,6 +204,8 @@ export class ProductListComponent implements OnInit {
     if (isCkecked.length <= 0) {
       alert(`Por favor seleccione al menos 1 producto`);
     } else {
+      // Este print facilita la visualización.
+      console.log(isCkecked);
       this.sumProducts(isCkecked);
     }
   }
